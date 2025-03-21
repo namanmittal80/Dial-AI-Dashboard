@@ -47,7 +47,7 @@ const ConversationAnalytics = () => {
   return (
     <div className="rounded-lg shadow-md p-6 tile-glow" 
       style={{ 
-        background: `linear-gradient(to right, ${darkMode ? 'rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8)' : 'rgba(243, 232, 255, 0.5), rgba(252, 231, 243, 0.5)'})`,
+        background: `linear-gradient(to right, ${darkMode ? 'rgba(30, 41, 59, 0.8), rgba(145, 195, 190, 0.16)' : 'rgba(203, 221, 249, 0.16), rgba(240, 231, 252, 0.32)'})`,
         color: 'var(--color-text-primary)'
       }}>
       <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>Recent Conversations</h2>

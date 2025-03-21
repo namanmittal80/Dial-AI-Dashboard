@@ -13,10 +13,51 @@ import DailyVolumeChartComponent from '../components/charts/DailyVolumeChartComp
 import { dailyCallVolumeByMonth } from '../api/mockData';
 import ConversationTile from '../components/ConversationTile';
 
-// Icons (you can replace these with actual icons)
-const CallIcon = () => <span className="text-pink-500 dark:text-blue-400">📞</span>;
-const DropIcon = () => <span className="text-red-500 dark:text-red-400">❌</span>;
-const ConnectIcon = () => <span className="text-green-500 dark:text-green-400">✅</span>;
+// Modern SVG Icons
+const CallIcon = () => {
+  const themeContext = useContext(ThemeContext);
+  const darkMode = themeContext?.darkMode;
+  
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600 dark:text-blue-400" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth={darkMode ? "0" : "0.8"}>
+      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" fillOpacity={darkMode ? "1" : "0.5"} />
+    </svg>
+  );
+};
+
+const DropIcon = () => {
+  const themeContext = useContext(ThemeContext);
+  const darkMode = themeContext?.darkMode;
+  
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600 dark:text-red-400" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth={darkMode ? "0" : "0.8"}>
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" fillOpacity={darkMode ? "1" : "0.5"} />
+    </svg>
+  );
+};
+
+const ConnectIcon = () => {
+  const themeContext = useContext(ThemeContext);
+  const darkMode = themeContext?.darkMode;
+  
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600 dark:text-green-400" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth={darkMode ? "0" : "0.8"}>
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" fillOpacity={darkMode ? "1" : "0.5"} />
+    </svg>
+  );
+};
+
+// New SuccessRateIcon (percentage/stats based)
+const SuccessRateIcon = () => {
+  const themeContext = useContext(ThemeContext);
+  const darkMode = themeContext?.darkMode;
+  
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600 dark:text-amber-400" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth={darkMode ? "0" : "0.8"}>
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" fillOpacity={darkMode ? "1" : "0.5"} />
+    </svg>
+  );
+};
 
 const Dashboard = () => {
   console.log('Dashboard component rendering');
@@ -144,12 +185,13 @@ const Dashboard = () => {
         <>
           {/* Small tiles in a grid with exact widths */}
           <div className="p-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               <div>
                 <SmallTile 
                   title="Total Calls" 
                   value={dashboardData?.total_calls || 0} 
                   icon={<CallIcon />} 
+                  layout="modern"
                 />
               </div>
               <div>
@@ -157,6 +199,7 @@ const Dashboard = () => {
                   title="Calls Connected" 
                   value={dashboardData?.calls_connected || 0} 
                   icon={<ConnectIcon />} 
+                  layout="modern"
                 />
               </div>
               <div>
@@ -164,36 +207,23 @@ const Dashboard = () => {
                   title="Calls Dropped" 
                   value={dashboardData?.calls_dropped || 0} 
                   icon={<DropIcon />} 
-                />
-              </div>
-              <div>
-                <SmallTile 
-                  title="Avg Duration" 
-                  value={`${Math.floor((dashboardData?.avg_duration || 0) / 60)}m ${(dashboardData?.avg_duration || 0) % 60}s`} 
-                  icon={<ConnectIcon />} 
+                  layout="modern"
                 />
               </div>
               <div>
                 <SmallTile 
                   title="Success Rate" 
                   value={`${dashboardData?.success_rate || 0}%`} 
-                  icon={<ConnectIcon />} 
+                  icon={<SuccessRateIcon />} 
+                  layout="modern"
                 />
               </div>
             </div>
           </div>
-          
-          <div className="p-4 grid grid-cols-2 gap-4">
-            <LargeTile title={<span className="text-gray-900 dark:text-white">Daily Call Volume</span>}>
-              <div className="h-full w-full rounded-lg" 
-                style={{ 
-                  backgroundColor: 'var(--color-bg-primary)',
-                  color: 'var(--color-text-primary)',
-                  overflow: 'hidden'
-                }}>
-                <DailyVolumeChartComponent data={dailyCallVolumeByMonth} />
-              </div>
-            </LargeTile>
+          <div className="p-4">
+            <ConversationAnalytics />
+          </div>
+          <div className="p-4 grid grid-cols-1 gap-4">
             <LargeTile title={<span className="text-gray-900 dark:text-white">Daily Call Volume</span>}>
               <div className="h-full w-full rounded-lg" 
                 style={{ 
@@ -206,9 +236,7 @@ const Dashboard = () => {
             </LargeTile>
           </div>
 
-          <div className="p-4 mt-4">
-            <ConversationAnalytics />
-          </div>
+       
 
           {/* Recent Conversations */}
           {/* {recentConversations.length > 0 && (
