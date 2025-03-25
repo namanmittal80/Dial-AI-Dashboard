@@ -97,6 +97,16 @@ const ConversationTile = ({ conversation, index, onClick }) => {
   const sentimentStyle = getSentimentStyle();
   const impactStyle = getImpactStyle();
   
+  // Determine if the conversation should be flagged
+  const shouldFlag = () => {
+    // Check for discrepancies or issues that require flagging
+    return conversation.flags || 
+           (conversation.sentiment && conversation.sentiment.toLowerCase() === 'negative') || 
+           (conversation.impact && conversation.impact.toLowerCase() === 'high');
+  };
+  
+  const isFlagged = shouldFlag();
+  
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -111,26 +121,29 @@ const ConversationTile = ({ conversation, index, onClick }) => {
   
   return (
     <div 
-      className="conversation-tile tile-glow rounded-lg p-4 cursor-pointer transition-all duration-200"
+      className={`conversation-tile tile-glow rounded-lg p-4 cursor-pointer transition-all duration-200 ${isFlagged ? 'flagged-tile' : ''}`}
       style={{ 
         backgroundColor: 'var(--color-bg-primary)',
         color: 'var(--color-text-primary)',
-        borderLeft: `4px solid ${conversation.sentiment.toLowerCase() === 'positive' 
-          ? 'var(--color-sentiment-positive)' 
-          : conversation.sentiment.toLowerCase() === 'negative' 
-            ? 'var(--color-sentiment-negative)' 
-            : 'var(--color-sentiment-neutral)'}`
+        borderLeft: `4px solid ${isFlagged 
+          ? 'var(--color-sentiment-negative)' 
+          : 'var(--color-sentiment-neutral)'}`,
+        minHeight: '160px',
+        paddingTop: '1.25rem',
+        paddingBottom: '1.25rem',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onClick={handleClick}
     >
       <div className="flex justify-between items-start mb-2">
         <h3 className="font-medium text-lg" style={{ color: 'var(--color-text-primary)' }}>{conversation.person_name}</h3>
         <div className="flex space-x-1">
-          {conversation.flags && (
-            <span className="px-1 py-0.5 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+          {/* {conversation.flags && (
+            <span className="px-1.5 py-0.5 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
               {conversation.flags}
             </span>
-          )}
+          )} */}
           <span 
             className={`px-2 py-1 text-xs rounded-full ${sentimentStyle.bg} ${sentimentStyle.text} border ${sentimentStyle.border}`}
           >
@@ -139,22 +152,24 @@ const ConversationTile = ({ conversation, index, onClick }) => {
         </div>
       </div>
       
-      <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>{conversation.summary}</p>
+      {/* <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>{conversation.summary}</p> */}
       
       {conversation.supporting_quote && (
-        <p className="text-xs italic mb-3 line-clamp-2" style={{ color: 'var(--color-text-secondary)' }}>
-          "{conversation.supporting_quote}"
-        </p>
+        <div className="flex-grow flex items-center justify-center mt-2 mb-4">
+          <p className="text-xs italic text-center line-clamp-3" style={{ color: 'var(--color-text-secondary)' }}>
+            "{conversation.supporting_quote}"
+          </p>
+        </div>
       )}
       
-      <div className="flex justify-between items-center text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>
+      <div className="flex justify-between items-center text-xs mt-auto" style={{ color: 'var(--color-text-secondary)' }}>
         <span>{conversation.start_time ? formatTimestamp(conversation.start_time) : ''}</span>
         <div className="flex items-center space-x-2">
-          {conversation.impact && (
+          {/* {conversation.impact && (
             <span className={`px-1.5 py-0.5 text-xs rounded-full ${impactStyle.bg} ${impactStyle.text}`}>
               {conversation.impact}
             </span>
-          )}
+          )} */}
           <span>{conversation.duration_seconds ? formatDuration(conversation.duration_seconds) : ''}</span>
         </div>
       </div>

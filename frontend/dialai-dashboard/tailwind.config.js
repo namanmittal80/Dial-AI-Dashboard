@@ -14,8 +14,8 @@ export default {
           'bg-secondary': '#f9f5ff',
           'text-primary': '#1e293b',
           'text-secondary': '#4b5563',
-          'gradient-primary': '#9C27B0', // Purple
-          'gradient-secondary': '#E91E63', // Pink/Magenta
+          'gradient-primary': '#5B21B6', // Purple
+          'gradient-secondary': '#6366f1', // Pink/Magenta
         },
         // Dark theme colors
         dark: {
@@ -40,6 +40,10 @@ export default {
           light: '#E1BEE7', // Light purple
           DEFAULT: '#CE93D8',
           dark: '#BA68C8',
+        },
+        gradient: {
+          primary: '#5B21B6', // Darker purple for numbers/metrics
+          secondary: '#FEF3C7', // Cream color
         },
       },
     },
