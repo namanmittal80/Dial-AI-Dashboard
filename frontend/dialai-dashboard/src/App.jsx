@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { ConversationProvider } from './context/ConversationContext';
+import { SignedIn, SignedOut, RedirectToSignIn, useUser } from "@clerk/clerk-react";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -67,6 +68,34 @@ const LoadingFallback = () => (
   </div>
 );
 
+// Create reusable protected route components
+const ProtectedRoute = ({ children }) => {  
+  return (
+    <>
+      <SignedIn>
+        <Layout>{children}</Layout>
+      </SignedIn>
+      <SignedOut>
+        <Navigate to="/login" replace />
+      </SignedOut>
+    </>
+  );
+};
+
+// Create component for authentication pages that redirect when signed in
+const AuthRoute = ({ children }) => {
+  return (
+    <>
+      <SignedIn>
+        <Navigate to="/dashboard" replace />
+      </SignedIn>
+      <SignedOut>
+        {children}
+      </SignedOut>
+    </>
+  );
+};
+
 function App() {
   console.log('App component rendering');
   
@@ -77,18 +106,30 @@ function App() {
           <ConversationProvider>
             <Router>
               <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={
+                  <AuthRoute>
+                    <Login />
+                  </AuthRoute>
+                } />
+                
+                <Route path="/signup" element={
+                  <AuthRoute>
+                    <Signup />
+                  </AuthRoute>
+                } />
+                
                 <Route path="/dashboard" element={
-                  <ErrorBoundary>
-                    <Layout><Dashboard /></Layout>
-                  </ErrorBoundary>
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
                 } />
+                
                 <Route path="/conversation-insights" element={
-                  <ErrorBoundary>
-                    <Layout><ConversationInsights /></Layout>
-                  </ErrorBoundary>
+                  <ProtectedRoute>
+                    <ConversationInsights />
+                  </ProtectedRoute>
                 } />
+                
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </Routes>

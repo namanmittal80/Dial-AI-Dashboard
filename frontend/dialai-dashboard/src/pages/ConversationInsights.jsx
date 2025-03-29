@@ -4,6 +4,7 @@ import { ConversationContext } from '../context/ConversationContext';
 import ThemeToggle from '../components/ThemeToggle';
 import ConversationTile from '../components/ConversationTile';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useUser, useClerk, SignOutButton } from '@clerk/clerk-react';
 
 const ConversationInsights = () => {
   const { darkMode } = useContext(ThemeContext);
@@ -45,11 +46,6 @@ const ConversationInsights = () => {
     
     // Update URL without causing a page reload
     navigate(`/conversation-insights?index=${conversation.index}`, { replace: true });
-  };
-  
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    navigate('/login');
   };
   
   // Format quotes for display
@@ -127,15 +123,16 @@ const ConversationInsights = () => {
         <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>Conversation Insights</h1>
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <button 
-            onClick={handleLogout} 
-            className="px-4 py-2 text-white rounded-md hover:opacity-90 transition-opacity"
-            style={{ 
-              background: `linear-gradient(to right, var(--color-gradient-primary), var(--color-gradient-secondary))` 
-            }}
-          >
-            Logout
-          </button>
+          <SignOutButton redirectUrl='/login'>
+            <button 
+              className="px-4 py-2 text-white rounded-md hover:opacity-90 transition-opacity"
+              style={{ 
+                background: `linear-gradient(to right, var(--color-gradient-primary), var(--color-gradient-secondary))` 
+              }}
+            >
+              Logout
+            </button>
+          </SignOutButton>
         </div>
       </header>
       

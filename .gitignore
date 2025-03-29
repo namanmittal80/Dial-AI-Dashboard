@@ -6,7 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+frontend/dialai-dashboard/package-lock.json
+backend/__pycache__
+*__pycache__*
+backend/venv
 node_modules
 dist
 dist-ssr
