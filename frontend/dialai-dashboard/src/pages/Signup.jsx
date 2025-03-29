@@ -1,11 +1,11 @@
 import React from 'react';
-import { SignUp } from '@clerk/clerk-react';
+import { SignUp, Waitlist } from '@clerk/clerk-react';
 import '../styles/Auth.css';
 
 const Signup = () => {
   return (
     <div className="auth-container">
-        <SignUp signInUrl="/login" />
+        <Waitlist signInUrl="/login" afterJoinWaitlistUrl="/login" />
     </div>
   );
 };
