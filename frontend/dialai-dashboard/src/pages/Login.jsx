@@ -6,7 +6,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <SignIn 
-        signUpUrl="/signup"
+        waitlistUrl="/signup"
         appearance={{
           elements: {
             rootBox: {
