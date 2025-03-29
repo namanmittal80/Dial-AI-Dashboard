@@ -1,5 +1,5 @@
 .auth-container {
-  @apply flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-purple-50 to-orange-50 m-0 p-0;
+  @apply flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-gray-900 to-blue-900 m-0 p-0;
 }
 
 .auth-form-container {

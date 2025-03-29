@@ -3,8 +3,15 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { ThemeProvider } from './context/ThemeContext'
+import { ClerkProvider } from '@clerk/clerk-react'
 
 console.log('main.jsx executing');
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
 
 try {
   console.log('Attempting to render React app');
@@ -19,9 +26,14 @@ try {
     console.log('Rendering App component');
     root.render(
       <React.StrictMode>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
+        <ClerkProvider 
+          publishableKey={PUBLISHABLE_KEY} 
+          afterSignOutUrl={window.location.origin + "/login"}
+        >
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </ClerkProvider>
       </React.StrictMode>
     );
     console.log('App rendered successfully');

@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useUser, useClerk } from '@clerk/clerk-react';
 import Sidebar from './Sidebar';
 
 const Layout = ({ children }) => {
   console.log('Layout component rendering');
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    console.log('Layout useEffect running - checking authentication');
-    // Check authentication
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    console.log('Is authenticated in Layout:', isAuthenticated);
-    
-    if (!isAuthenticated) {
-      console.log('User is not authenticated, redirecting to login');
-      navigate('/login');
-    }
-  }, [navigate]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isSignedIn, user } = useUser();
+  const { isLoaded } = useClerk();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  console.log('Layout rendering content, user:', user?.id);
+  
   return (
     <div className="flex h-screen">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />

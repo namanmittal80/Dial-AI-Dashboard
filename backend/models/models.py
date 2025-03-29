@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, DateTime, Integer, Float, JSONB
+from sqlalchemy import Column, String, DateTime, Integer, Float
+from sqlalchemy.dialects.postgresql import JSONB
 from database.connection import Base
 
 class ClientConfig(Base):

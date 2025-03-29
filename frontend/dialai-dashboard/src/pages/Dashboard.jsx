@@ -12,6 +12,7 @@ import '../styles/Dashboard.css';
 import DailyVolumeChartComponent from '../components/charts/DailyVolumeChartComponent';
 import { dailyCallVolumeByMonth } from '../api/mockData';
 import ConversationTile from '../components/ConversationTile';
+import { useUser, useClerk, SignOutButton } from '@clerk/clerk-react';
 
 // Modern SVG Icons
 const CallIcon = () => {
@@ -62,6 +63,7 @@ const SuccessRateIcon = () => {
 const Dashboard = () => {
   console.log('Dashboard component rendering');
   const navigate = useNavigate();
+  const { user } = useUser();
   
   // Wrap context usage in try/catch to debug potential context issues
   let darkMode, selectConversationById;
@@ -84,16 +86,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     console.log('Dashboard useEffect running');
-    
-    // Check authentication
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    console.log('Is authenticated in Dashboard:', isAuthenticated);
-    
-    if (!isAuthenticated) {
-      console.log('User is not authenticated, redirecting to login');
-      navigate('/login');
-      return;
-    }
 
     // Fetch dashboard data
     const fetchDashboardData = async () => {
@@ -133,13 +125,6 @@ const Dashboard = () => {
     fetchDashboardData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    console.log('Logout clicked');
-    localStorage.removeItem('isAuthenticated');
-    console.log('Authentication removed from localStorage');
-    navigate('/login');
-  };
-
   // Handle conversation tile click
   const handleConversationClick = (conversation) => {
     console.log("Dashboard: Conversation clicked, ID:", conversation.id);
@@ -159,15 +144,16 @@ const Dashboard = () => {
         <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>Dashboard</h1>
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <button 
-            onClick={handleLogout} 
-            className="px-4 py-2 text-white rounded-md hover:opacity-90 transition-opacity"
-            style={{ 
-              background: `linear-gradient(to right, var(--color-gradient-primary), var(--color-gradient-secondary))` 
-            }}
-          >
-            Logout
-          </button>
+          <SignOutButton redirectUrl='/login'>
+            <button 
+              className="px-4 py-2 text-white rounded-md hover:opacity-90 transition-opacity"
+              style={{ 
+                background: `linear-gradient(to right, var(--color-gradient-primary), var(--color-gradient-secondary))` 
+              }}
+            >
+              Logout
+            </button>
+          </SignOutButton>
         </div>
       </header>
       
