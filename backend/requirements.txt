@@ -1,5 +1,34 @@
-fastapi==0.104.1
-uvicorn==0.23.2
-websockets==11.0.3
-psycopg2-binary==2.9.9
-sqlalchemy==2.0.23 
+# Core backend
+fastapi==0.115.11
+uvicorn==0.34.0
+sqlalchemy==2.0.39
+alembic==1.15.1
+psycopg2-binary==2.9.10
+python-dotenv==1.0.0
+pydantic==2.10.6
+
+# AWS + voice processing
+boto3==1.36.2
+botocore==1.36.2
+s3transfer==0.11.1
+amazon-transcribe==0.6.2
+awscrt==0.16.26
+
+# OpenAI integration (optional, for LLM calls)
+openai==1.68.2
+
+# Audio handling (optional but useful for local testing)
+numpy==1.24.4
+PyAudio==0.2.14
+sounddevice==0.4.6
+cffi==1.17.1
+
+# Mac keyboard & system access (optional for hotkeys etc.)
+keyboard==0.13.5
+
+# macOS native support (auto-installed with PyAudio etc. on Mac)
+pyobjc-core==10.3.2
+pyobjc==10.3.2
+
+# Networking
+urllib3==1.26.20
